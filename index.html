@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saffron & Silk | Royal Indian Vegetarian Dining</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --royal-gold: #D4AF37;
+            --emerald-green: #064E3B;
+            --deep-ivory: #FCF9F2;
+            --dark-accent: #1a1a1a;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background-color: var(--deep-ivory); 
+            color: var(--dark-accent); 
+            scroll-behavior: smooth; 
+            overflow-x: hidden; 
+        }
+
+        /* --- Header --- */
+        header {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 1rem 8%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .logo { 
+            font-family: 'Cinzel', serif; 
+            font-size: 1.8rem; 
+            color: var(--emerald-green); 
+            text-decoration: none; 
+            border-bottom: 2px solid var(--royal-gold); 
+        }
+
+        nav ul { display: flex; list-style: none; gap: 2rem; }
+        nav a { 
+            text-decoration: none; 
+            color: var(--dark-accent); 
+            font-weight: 600; 
+            font-size: 0.8rem; 
+            text-transform: uppercase; 
+            transition: var(--transition); 
+        }
+        nav a:hover { color: var(--royal-gold); }
+
+        .cart-trigger {
+            background: var(--emerald-green);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
+        .cart-trigger:hover { background: var(--royal-gold); }
+
+        #cart-count { background: var(--royal-gold); color: white; padding: 2px 8px; border-radius: 50%; font-size: 0.8rem; }
+
+        /* --- Hero --- */
+        .hero {
+            height: 70vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=80');
+            background-size: cover; background-position: center;
+            display: flex; justify-content: center; align-items: center; text-align: center; color: white; margin-top: 70px;
+        }
+
+        .hero h1 { font-family: 'Cinzel', serif; font-size: 4rem; margin-bottom: 10px; }
+
+        /* --- Menu Grid --- */
+        .container { padding: 60px 8%; }
+        .section-title { text-align: center; font-family: 'Cinzel', serif; font-size: 2.5rem; margin-bottom: 3rem; color: var(--emerald-green); }
+
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2.5rem; }
+
+        .item-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: var(--transition); border: 1px solid transparent; }
+        .item-card:hover { transform: translateY(-10px); border-color: var(--royal-gold); }
+
+        .item-img-wrapper { height: 200px; overflow: hidden; position: relative; }
+        .item-img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .veg-badge { position: absolute; top: 10px; right: 10px; background: white; padding: 4px; border: 1px solid green; border-radius: 3px; z-index: 10; }
+        .veg-dot { width: 8px; height: 8px; background: green; border-radius: 50%; }
+
+        .item-content { padding: 1.5rem; }
+        .item-content h3 { font-family: 'Cinzel', serif; margin-bottom: 0.5rem; font-size: 1.1rem; }
+        .item-content p { font-size: 0.85rem; color: #777; margin-bottom: 1rem; height: 40px; }
+
+        .card-footer { display: flex; justify-content: space-between; align-items: center; }
+        .price { font-weight: 700; color: var(--emerald-green); font-size: 1.2rem; }
+
+        .add-btn { background: var(--emerald-green); color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; transition: 0.3s; }
+        .add-btn:hover { background: var(--royal-gold); }
+
+        /* --- Masterclass Section --- */
+        .masterclass-section { background: var(--dark-accent); color: white; padding: 80px 8%; text-align: center; }
+        .video-container { 
+            position: relative; 
+            max-width: 900px; 
+            margin: 0 auto 3rem; 
+            aspect-ratio: 16 / 9; 
+            border: 2px solid var(--royal-gold); 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .video-container iframe { width: 100%; height: 100%; border: none; }
+
+        .recipe-download-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 3rem; }
+        .recipe-card { 
+            background: rgba(255,255,255,0.05); padding: 1.5rem; border-left: 3px solid var(--royal-gold); 
+            display: flex; justify-content: space-between; align-items: center; transition: var(--transition); text-align: left; 
+        }
+        .recipe-card:hover { background: rgba(255,255,255,0.1); transform: translateX(10px); }
+        .download-icon-btn { 
+            background: transparent; color: var(--royal-gold); border: 1px solid var(--royal-gold); 
+            width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; 
+        }
+        .download-icon-btn:hover { background: var(--royal-gold); color: white; }
+
+        /* --- Cart Panel --- */
+        #cart-panel {
+            position: fixed; right: -450px; top: 0; width: 400px; height: 100vh;
+            background: white; z-index: 2000; box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+            transition: 0.4s ease; padding: 2rem; display: flex; flex-direction: column;
+        }
+        #cart-panel.active { right: 0; }
+        .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 1px solid #eee; padding-bottom: 1rem; }
+        #cart-items-container { flex-grow: 1; overflow-y: auto; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; background: #f9f9f9; padding: 10px; border-radius: 8px; }
+        .remove-btn { color: #ff4444; border: none; background: none; cursor: pointer; font-size: 0.8rem; text-decoration: underline; }
+        .total-row { display: flex; justify-content: space-between; font-size: 1.4rem; font-weight: bold; margin: 1.5rem 0; }
+        .checkout-btn { width: 100%; background: var(--royal-gold); color: white; border: none; padding: 1rem; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+
+        /* --- Footer --- */
+        footer { background: var(--dark-accent); color: white; padding: 60px 8% 20px; text-align: center; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; margin-bottom: 3rem; text-align: left; }
+        .footer-col h4 { color: var(--royal-gold); font-family: 'Cinzel', serif; margin-bottom: 1.2rem; }
+        .footer-newsletter { background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 10px; margin-bottom: 3rem; border: 1px solid var(--royal-gold); }
+        .newsletter-form { display: flex; gap: 10px; max-width: 500px; margin: 1.5rem auto 0; }
+        .newsletter-form input { flex: 1; padding: 0.8rem; background: transparent; border: 1px solid var(--royal-gold); color: white; border-radius: 4px; }
+        .trust-badges { display: flex; justify-content: center; gap: 30px; margin-top: 2rem; opacity: 0.7; flex-wrap: wrap; font-size: 0.7rem; text-transform: uppercase; }
+
+        #backToTop {
+            position: fixed; bottom: 30px; left: 30px; background: var(--royal-gold); color: white; 
+            width: 45px; height: 45px; border-radius: 50%; display: none; align-items: center; 
+            justify-content: center; cursor: pointer; border: none; z-index: 999;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">SAFFRON & SILK</a>
+        <nav>
+            <ul>
+                <li><a href="#mains">Mains</a></li>
+                <li><a href="#sweets">Desserts</a></li>
+                <li><a href="#masterclass">Masterclass</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        <button class="cart-trigger" onclick="toggleCart()">
+            <i class="fas fa-shopping-bag"></i>
+            <span id="cart-count">0</span>
+        </button>
+    </header>
+
+    <section class="hero">
+        <div>
+            <h1>Royal Vegetarian Feast</h1>
+            <p style="letter-spacing: 2px; text-transform: uppercase;">A Culinary Legacy from Ancient Bharat</p>
+        </div>
+    </section>
+
+    <section class="container" id="mains">
+        <h2 class="section-title">Grand Mains</h2>
+        <div class="menu-grid" id="mains-grid"></div>
+    </section>
+
+    <section class="container" id="sweets" style="background: #fdfaf2;">
+        <h2 class="section-title">Royal Sweets</h2>
+        <div class="menu-grid" id="sweets-grid"></div>
+    </section>
+
+    <section class="masterclass-section" id="masterclass">
+        <h2 class="section-title" style="color: var(--royal-gold);">The Royal Masterclass</h2>
+        <p style="margin-bottom: 3rem; color: #aaa;">Discover the artistry of Indian cooking through our signature video guides.</p>
+        
+        <div class="video-container">
+            <iframe 
+                src="https://www.youtube.com/embed/iEFoKZQ6KhA" 
+                title="Saffron & Silk Masterclass" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <div class="recipe-download-grid">
+            <div class="recipe-card">
+                <div>
+                    <h4>Dal-e-Saffron Recipe</h4>
+                    <p style="font-size: 0.7rem; color: #888;">PDF • 2.4 MB</p>
+                </div>
+                <button class="download-icon-btn" onclick="alert('Downloading Recipe...')">
+                    <i class="fas fa-file-download"></i>
+                </button>
+            </div>
+            <div class="recipe-card">
+                <div>
+                    <h4>Kesari Rasmalai Secrets</h4>
+                    <p style="font-size: 0.7rem; color: #888;">PDF • 1.8 MB</p>
+                </div>
+                <button class="download-icon-btn" onclick="alert('Downloading Recipe...')">
+                    <i class="fas fa-file-download"></i>
+                </button>
+            </div>
+            <div class="recipe-card">
+                <div>
+                    <h4>Paneer Tikka Marinade</h4>
+                    <p style="font-size: 0.7rem; color: #888;">PDF • 3.1 MB</p>
+                </div>
+                <button class="download-icon-btn" onclick="alert('Downloading Recipe...')">
+                    <i class="fas fa-file-download"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <div id="cart-panel">
+        <div class="cart-header">
+            <h2 style="font-family: 'Cinzel';">Your Thali</h2>
+            <button onclick="toggleCart()" style="border: none; background: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+        </div>
+        <div id="cart-items-container"></div>
+        <div class="cart-footer">
+            <div class="total-row"><span>Total</span><span id="cart-total">₹0</span></div>
+            <button class="checkout-btn" onclick="alert('Proceeding to Secure Gateway...')">Secure Checkout</button>
+        </div>
+    </div>
+
+    <footer id="contact">
+        <div class="footer-newsletter">
+            <h4>Join The Inner Circle</h4>
+            <div class="newsletter-form">
+                <input type="email" placeholder="Your Email Address">
+                <button class="add-btn" style="border-radius: 4px;">Subscribe</button>
+            </div>
+        </div>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <a href="#" class="logo" style="color: white; border-color: var(--royal-gold);">SAFFRON & SILK</a>
+                <p style="margin-top: 1rem; color: #999;">The heart of Bharat's heritage served on a plate. Pure Satvic excellence.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Experience</h4>
+                <p style="color: #999; line-height: 2;">Fine Dining<br>Catering<br>Private Events</p>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <p style="color: #999;"><i class="fas fa-phone" style="color: var(--royal-gold); margin-right: 10px;"></i> +91 98765 43210</p>
+                <p style="color: #999;"><i class="fas fa-envelope" style="color: var(--royal-gold); margin-right: 10px;"></i> royal@saffronsilk.in</p>
+            </div>
+        </div>
+        <div class="trust-badges">
+            <div class="badge-item"><i class="fas fa-leaf"></i> 100% Organic</div>
+            <div class="badge-item"><i class="fas fa-award"></i> Michelin Inspired</div>
+            <div class="badge-item"><i class="fas fa-shield-alt"></i> Safe Delivery</div>
+        </div>
+        <p style="margin-top: 40px; color: #555; font-size: 0.7rem;">&copy; 2026 Saffron & Silk | FSSAI Lic No: 12345678901234</p>
+    </footer>
+
+    <button id="backToTop" onclick="window.scrollTo(0,0)"><i class="fas fa-chevron-up"></i></button>
+
+    <script>
+        const menuData = [
+            { id: 1, name: "Kesari Paneer Tikka", price: 545, cat: "main", img: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=500", desc: "Saffron marinated cottage cheese." },
+            { id: 2, name: "Dal-e-Saffron", price: 495, cat: "main", img: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=500", desc: "24-hour slow cooked black lentils." },
+            { id: 3, name: "Nawabi Veg Biryani", price: 525, cat: "main", img: "https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=500", desc: "Fragrant rice with garden vegetables." },
+            { id: 4, name: "Malai Kofta", price: 480, cat: "main", img: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=500", desc: "Potato and paneer balls in creamy gravy." },
+            { id: 5, name: "Paneer Butter Masala", price: 510, cat: "main", img: "https://images.unsplash.com/photo-1603894584114-7294576d860d?w=500", desc: "Rich cashew and tomato based paneer." },
+            { id: 6, name: "Stuffed Dum Aloo", price: 420, cat: "main", img: "https://images.unsplash.com/photo-1601050690597-df056fb01793?w=500", desc: "Potatoes filled with nuts and spices." },
+            { id: 7, name: "Shahi Gulab Jamun", price: 225, cat: "sweet", img: "https://images.unsplash.com/photo-1605028459345-314a51e51380?w=500", desc: "Milk dumplings in rose syrup." },
+            { id: 8, name: "Kesari Rasmalai", price: 275, cat: "sweet", img: "https://images.unsplash.com/photo-1589113103503-49673cbbbd1c?w=500", desc: "Soft paneer discs in saffron milk." },
+            { id: 9, name: "Moong Dal Halwa", price: 310, cat: "sweet", img: "https://images.unsplash.com/photo-1542129177-3850116641e7?w=500", desc: "Lentil dessert cooked in pure ghee." },
+            { id: 10, name: "Rabri Jalebi", price: 250, cat: "sweet", img: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=500", desc: "Crispy spirals with condensed milk." },
+            { id: 11, name: "Kaju Katli Platter", price: 350, cat: "sweet", img: "https://images.unsplash.com/photo-1605028459345-314a51e51380?w=500", desc: "Luxury cashew nut fudge pieces." },
+            { id: 12, name: "Gajar Ka Halwa", price: 290, cat: "sweet", img: "https://images.unsplash.com/photo-1589113103503-49673cbbbd1c?w=500", desc: "Fresh winter carrots and khoya." }
+        ];
+
+        let cart = [];
+
+        function initMenu() {
+            const mainsGrid = document.getElementById('mains-grid');
+            const sweetsGrid = document.getElementById('sweets-grid');
+            menuData.forEach(item => {
+                const html = `<div class="item-card">
+                    <div class="item-img-wrapper"><img src="${item.img}" class="item-img"><div class="veg-badge"><div class="veg-dot"></div></div></div>
+                    <div class="item-content"><h3>${item.name}</h3><p>${item.desc}</p>
+                    <div class="card-footer"><span class="price">₹${item.price}</span>
+                    <button class="add-btn" onclick="addToCart(${item.id})">Add to Cart</button></div></div></div>`;
+                item.cat === 'main' ? mainsGrid.innerHTML += html : sweetsGrid.innerHTML += html;
+            });
+        }
+
+        function addToCart(id) {
+            cart.push(menuData.find(i => i.id === id));
+            updateCartUI();
+            event.target.innerText = "Added!";
+            setTimeout(() => event.target.innerText = "Add to Cart", 1000);
+        }
+
+        function removeFromCart(index) { cart.splice(index, 1); updateCartUI(); }
+
+        function updateCartUI() {
+            const container = document.getElementById('cart-items-container');
+            document.getElementById('cart-count').innerText = cart.length;
+            container.innerHTML = cart.length === 0 ? '<div class="empty-msg">Your thali is empty.</div>' : '';
+            let total = 0;
+            cart.forEach((item, index) => {
+                total += item.price;
+                container.innerHTML += `<div class="cart-item"><div><h4>${item.name}</h4><span>₹${item.price}</span></div>
+                    <button class="remove-btn" onclick="removeFromCart(${index})">Remove</button></div>`;
+            });
+            document.getElementById('cart-total').innerText = `₹${total}`;
+        }
+
+        function toggleCart() { document.getElementById('cart-panel').classList.toggle('active'); }
+        window.onscroll = () => document.getElementById("backToTop").style.display = (window.scrollY > 300) ? "flex" : "none";
+        window.onload = initMenu;
+    </script>
+</body>
+</html>
+
+        #cart-count { background: var(--royal-gold); color: white; padding: 2px 8px; border-radius: 50%; font-size: 0.8rem; }
+
+        /* --- Hero --- */
+        .hero {
+            height: 70vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=80');
+            background-size: cover; background-position: center;
+            display: flex; justify-content: center; align-items: center; text-align: center; color: white; margin-top: 70px;
+        }
+
+        .hero h1 { font-family: 'Cinzel', serif; font-size: 4rem; margin-bottom: 10px; }
+
+        /* --- Menu Grid --- */
+        .container { padding: 60px 8%; }
+        .section-title { text-align: center; font-family: 'Cinzel', serif; font-size: 2.5rem; margin-bottom: 3rem; color: var(--emerald-green); }
+
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2.5rem; }
+
+        .item-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: var(--transition); border: 1px solid transparent; }
+        .item-card:hover { transform: translateY(-10px); border-color: var(--royal-gold); }
+
+        .item-img-wrapper { height: 200px; overflow: hidden; position: relative; }
+        .item-img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .veg-badge { position: absolute; top: 10px; right: 10px; background: white; padding: 4px; border: 1px solid green; border-radius: 3px; z-index: 10; }
+        .veg-dot { width: 8px; height: 8px; background: green; border-radius: 50%; }
+
+        .item-content { padding: 1.5rem; }
+        .item-content h3 { font-family: 'Cinzel', serif; margin-bottom: 0.5rem; font-size: 1.1rem; }
+        .item-content p { font-size: 0.85rem; color: #777; margin-bottom: 1rem; height: 40px; }
+
+        .card-footer { display: flex; justify-content: space-between; align-items: center; }
+        .price { font-weight: 700; color: var(--emerald-green); font-size: 1.2rem; }
+
+        .add-btn { background: var(--emerald-green); color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; transition: 0.3s; }
+        .add-btn:hover { background: var(--royal-gold); }
+
+        /* --- Masterclass & Video --- */
+        .masterclass-section { background: var(--dark-accent); color: white; padding: 80px 8%; text-align: center; }
+        .video-container { position: relative; max-width: 900px; margin: 0 auto 3rem; aspect-ratio: 16 / 9; border: 2px solid var(--royal-gold); }
+        .video-container iframe { width: 100%; height: 100%; border: none; }
+
+        .recipe-download-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 3rem; }
+        .recipe-card { 
+            background: rgba(255,255,255,0.05); padding: 1.5rem; border-left: 3px solid var(--royal-gold); 
+            display: flex; justify-content: space-between; align-items: center; transition: var(--transition); text-align: left; 
+        }
+        .recipe-card:hover { background: rgba(255,255,255,0.1); transform: translateX(10px); }
+        .download-icon-btn { 
+            background: transparent; color: var(--royal-gold); border: 1px solid var(--royal-gold); 
+            width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; 
+        }
+        .download-icon-btn:hover { background: var(--royal-gold); color: white; }
+
+        /* --- Cart Panel --- */
+        #cart-panel {
+            position: fixed; right: -450px; top: 0; width: 400px; height: 100vh;
+            background: white; z-index: 2000; box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+            transition: 0.4s ease; padding: 2rem; display: flex; flex-direction: column;
+        }
+        #cart-panel.active { right: 0; }
+        .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 1px solid #eee; padding-bottom: 1rem; }
+        #cart-items-container { flex-grow: 1; overflow-y: auto; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; background: #f9f9f9; padding: 10px; border-radius: 8px; }
+        .remove-btn { color: #ff4444; border: none; background: none; cursor: pointer; font-size: 0.8rem; text-decoration: underline; }
+        .total-row { display: flex; justify-content: space-between; font-size: 1.4rem; font-weight: bold; margin: 1.5rem 0; }
+        .checkout-btn { width: 100%; background: var(--royal-gold); color: white; border: none; padding: 1rem; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+
+        /* --- Footer --- */
+        footer { background: var(--dark-accent); color: white; padding: 60px 8% 20px; text-align: center; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; margin-bottom: 3rem; text-align: left; }
+        .footer-col h4 { color: var(--royal-gold); font-family: 'Cinzel', serif; margin-bottom: 1.2rem; }
+        .footer-newsletter { background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 10px; margin-bottom: 3rem; border: 1px solid var(--royal-gold); }
+        .newsletter-form { display: flex; gap: 10px; max-width: 500px; margin: 1.5rem auto 0; }
+        .newsletter-form input { flex: 1; padding: 0.8rem; background: transparent; border: 1px solid var(--royal-gold); color: white; border-radius: 4px; }
+        .trust-badges { display: flex; justify-content: center; gap: 30px; margin-top: 2rem; opacity: 0.7; flex-wrap: wrap; font-size: 0.7rem; text-transform: uppercase; }
+
+        #backToTop {
+            position: fixed; bottom: 30px; left: 30px; background: var(--royal-gold); color: white; 
+            width: 45px; height: 45px; border-radius: 50%; display: none; align-items: center; 
+            justify-content: center; cursor: pointer; border: none; z-index: 999;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">SAFFRON & SILK</a>
+        <nav>
+            <ul>
+                <li><a href="#mains">Mains</a></li>
+                <li><a href="#sweets">Desserts</a></li>
+                <li><a href="#masterclass">Masterclass</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        <button class="cart-trigger" onclick="toggleCart()">
+            <i class="fas fa-shopping-bag"></i>
+            <span id="cart-count">0</span>
+        </button>
+    </header>
+
+    <section class="hero">
+        <div>
+            <h1>Royal Vegetarian Feast</h1>
+            <p style="letter-spacing: 2px; text-transform: uppercase;">A Culinary Legacy from Ancient Bharat</p>
+        </div>
+    </section>
+
+    <section class="container" id="mains">
+        <h2 class="section-title">Grand Mains</h2>
+        <div class="menu-grid" id="mains-grid"></div>
+    </section>
+
+    <section class="container" id="sweets" style="background: #fdfaf2;">
+        <h2 class="section-title">Royal Sweets</h2>
+        <div class="menu-grid" id="sweets-grid"></div>
+    </section>
+
+    <section class="masterclass-section" id="masterclass">
+        <h2 class="section-title" style="color: var(--royal-gold);">Royal Kitchen Masterclass</h2>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/M_vJv7-N2YI" allowfullscreen></iframe>
+        </div>
+        <div class="recipe-download-grid">
+            <div class="recipe-card">
+                <div><h4>Dal-e-Saffron PDF</h4><p style="font-size: 0.7rem; color: #888;">2.4 MB</p></div>
+                <button class="download-icon-btn" onclick="alert('Downloading...')"><i class="fas fa-file-download"></i></button>
+            </div>
+            <div class="recipe-card">
+                <div><h4>Kesari Rasmalai PDF</h4><p style="font-size: 0.7rem; color: #888;">1.8 MB</p></div>
+                <button class="download-icon-btn" onclick="alert('Downloading...')"><i class="fas fa-file-download"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <div id="cart-panel">
+        <div class="cart-header">
+            <h2 style="font-family: 'Cinzel';">Your Thali</h2>
+            <button onclick="toggleCart()" style="border: none; background: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+        </div>
+        <div id="cart-items-container"></div>
+        <div class="cart-footer">
+            <div class="total-row"><span>Total</span><span id="cart-total">₹0</span></div>
+            <button class="checkout-btn" onclick="alert('Proceeding to Secure Gateway...')">Secure Checkout</button>
+        </div>
+    </div>
+
+    <footer id="contact">
+        <div class="footer-newsletter">
+            <h4>Join The Inner Circle</h4>
+            <div class="newsletter-form">
+                <input type="email" placeholder="Your Email">
+                <button class="add-btn" style="border-radius: 4px;">Subscribe</button>
+            </div>
+        </div>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <a href="#" class="logo" style="color: white; border-color: var(--royal-gold);">SAFFRON & SILK</a>
+                <p style="margin-top: 1rem; color: #999;">The heart of Bharat's heritage served on a plate.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <p style="color: #999;">+91 98765 43210<br>royal@saffronsilk.in</p>
+            </div>
+        </div>
+        <div class="trust-badges">
+            <div class="badge-item"><i class="fas fa-leaf"></i> 100% Organic</div>
+            <div class="badge-item"><i class="fas fa-award"></i> Michelin Inspired</div>
+        </div>
+    </footer>
+
+    <button id="backToTop" onclick="window.scrollTo(0,0)"><i class="fas fa-chevron-up"></i></button>
+
+    <script>
+        const menuData = [
+            { id: 1, name: "Kesari Paneer Tikka", price: 545, cat: "main", img: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=500", desc: "Saffron marinated cottage cheese." },
+            { id: 2, name: "Dal-e-Saffron", price: 495, cat: "main", img: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=500", desc: "24-hour slow cooked black lentils." },
+            { id: 3, name: "Nawabi Veg Biryani", price: 525, cat: "main", img: "https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=500", desc: "Fragrant rice with garden vegetables." },
+            { id: 4, name: "Malai Kofta", price: 480, cat: "main", img: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=500", desc: "Potato and paneer balls in creamy gravy." },
+            { id: 5, name: "Paneer Butter Masala", price: 510, cat: "main", img: "https://images.unsplash.com/photo-1603894584114-7294576d860d?w=500", desc: "Rich cashew and tomato based paneer." },
+            { id: 6, name: "Stuffed Dum Aloo", price: 420, cat: "main", img: "https://images.unsplash.com/photo-1601050690597-df056fb01793?w=500", desc: "Potatoes filled with nuts and spices." },
+            { id: 7, name: "Shahi Gulab Jamun", price: 225, cat: "sweet", img: "https://images.unsplash.com/photo-1605028459345-314a51e51380?w=500", desc: "Milk dumplings in rose syrup." },
+            { id: 8, name: "Kesari Rasmalai", price: 275, cat: "sweet", img: "https://images.unsplash.com/photo-1589113103503-49673cbbbd1c?w=500", desc: "Soft paneer discs in saffron milk." },
+            { id: 9, name: "Moong Dal Halwa", price: 310, cat: "sweet", img: "https://images.unsplash.com/photo-1542129177-3850116641e7?w=500", desc: "Lentil dessert cooked in pure ghee." },
+            { id: 10, name: "Rabri Jalebi", price: 250, cat: "sweet", img: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=500", desc: "Crispy spirals with condensed milk." },
+            { id: 11, name: "Kaju Katli Platter", price: 350, cat: "sweet", img: "https://images.unsplash.com/photo-1605028459345-314a51e51380?w=500", desc: "Luxury cashew nut fudge pieces." },
+            { id: 12, name: "Gajar Ka Halwa", price: 290, cat: "sweet", img: "https://images.unsplash.com/photo-1589113103503-49673cbbbd1c?w=500", desc: "Fresh winter carrots and khoya." }
+        ];
+
+        let cart = [];
+
+        function initMenu() {
+            const mainsGrid = document.getElementById('mains-grid');
+            const sweetsGrid = document.getElementById('sweets-grid');
+            menuData.forEach(item => {
+                const html = `<div class="item-card">
+                    <div class="item-img-wrapper"><img src="${item.img}" class="item-img"><div class="veg-badge"><div class="veg-dot"></div></div></div>
+                    <div class="item-content"><h3>${item.name}</h3><p>${item.desc}</p>
+                    <div class="card-footer"><span class="price">₹${item.price}</span>
+                    <button class="add-btn" onclick="addToCart(${item.id})">Add to Cart</button></div></div></div>`;
+                item.cat === 'main' ? mainsGrid.innerHTML += html : sweetsGrid.innerHTML += html;
+            });
+        }
+
+        function addToCart(id) {
+            cart.push(menuData.find(i => i.id === id));
+            updateCartUI();
+            event.target.innerText = "Added!";
+            setTimeout(() => event.target.innerText = "Add to Cart", 1000);
+        }
+
+        function removeFromCart(index) { cart.splice(index, 1); updateCartUI(); }
+
+        function updateCartUI() {
+            const container = document.getElementById('cart-items-container');
+            document.getElementById('cart-count').innerText = cart.length;
+            container.innerHTML = cart.length === 0 ? '<div class="empty-msg">Your thali is empty.</div>' : '';
+            let total = 0;
+            cart.forEach((item, index) => {
+                total += item.price;
+                container.innerHTML += `<div class="cart-item"><div><h4>${item.name}</h4><span>₹${item.price}</span></div>
+                    <button class="remove-btn" onclick="removeFromCart(${index})">Remove</button></div>`;
+            });
+            document.getElementById('cart-total').innerText = `₹${total}`;
+        }
+
+        function toggleCart() { document.getElementById('cart-panel').classList.toggle('active'); }
+        window.onscroll = () => document.getElementById("backToTop").style.display = (window.scrollY > 300) ? "flex" : "none";
+        window.onload = initMenu;
+    </script>
+</body>
+</html>
