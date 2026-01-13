@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <script>
+    // Initialize dataLayer for GA4/GTM
+    window.dataLayer = window.dataLayer || [];
+
+    // Initialize digitalData
     window.digitalData = {
       page: {
         pageName: "Saffron & Silk | Home",
@@ -27,6 +31,15 @@
       },
       events: []
     };
+
+    // Push page view to dataLayer
+    window.dataLayer.push({
+      'event': 'page_view',
+      'page_path': window.location.pathname,
+      'page_title': document.title,
+      'site_section': 'Home',
+      'page_type': 'restaurant'
+    });
     </script>
 
     <style>
@@ -224,7 +237,7 @@
         <h2 class="section-title" style="color: var(--royal-gold);">The Royal Masterclass</h2>
         <p style="margin-bottom: 3rem; color: #aaa;">Discover the artistry of Indian cooking through our signature video guides.</p>
         
-        <div class="video-container">
+        <div class="video-container" id="masterclass-video">
             <iframe 
                 src="https://www.youtube.com/embed/iEFoKZQ6KhA" 
                 title="Saffron & Silk Masterclass" 
@@ -239,7 +252,7 @@
                     <h4>Dal-e-Saffron Recipe</h4>
                     <p style="font-size: 0.7rem; color: #888;">PDF • 2.4 MB</p>
                 </div>
-                <button class="download-icon-btn" onclick="alert('Downloading Recipe...')">
+                <button class="download-icon-btn" onclick="trackRecipeDownload('Dal-e-Saffron Recipe', '2.4 MB')">
                     <i class="fas fa-file-download"></i>
                 </button>
             </div>
@@ -248,7 +261,7 @@
                     <h4>Kesari Rasmalai Secrets</h4>
                     <p style="font-size: 0.7rem; color: #888;">PDF • 1.8 MB</p>
                 </div>
-                <button class="download-icon-btn" onclick="alert('Downloading Recipe...')">
+                <button class="download-icon-btn" onclick="trackRecipeDownload('Kesari Rasmalai Secrets', '1.8 MB')">
                     <i class="fas fa-file-download"></i>
                 </button>
             </div>
@@ -257,7 +270,7 @@
                     <h4>Paneer Tikka Marinade</h4>
                     <p style="font-size: 0.7rem; color: #888;">PDF • 3.1 MB</p>
                 </div>
-                <button class="download-icon-btn" onclick="alert('Downloading Recipe...')">
+                <button class="download-icon-btn" onclick="trackRecipeDownload('Paneer Tikka Marinade', '3.1 MB')">
                     <i class="fas fa-file-download"></i>
                 </button>
             </div>
@@ -357,6 +370,17 @@
                 }
             });
 
+            window.dataLayer.push({
+                'event': 'add_to_cart',
+                'items': [{
+                    'item_id': product.id,
+                    'item_name': product.name,
+                    'item_category': product.cat,
+                    'price': product.price,
+                    'currency': 'INR'
+                }]
+            });
+
             window.digitalData.cart.totalItems = cart.length;
             window.digitalData.cart.totalValue =
               cart.reduce((sum, i) => sum + i.price, 0);
@@ -385,6 +409,16 @@
                 }
             });
 
+            window.dataLayer.push({
+                'event': 'remove_from_cart',
+                'items': [{
+                    'item_id': removedItem.id,
+                    'item_name': removedItem.name,
+                    'price': removedItem.price,
+                    'currency': 'INR'
+                }]
+            });
+
             window.digitalData.cart.totalItems = cart.length;
             window.digitalData.cart.totalValue =
               cart.reduce((sum, i) => sum + i.price, 0);
@@ -407,10 +441,64 @@
         window.onscroll = () => document.getElementById("backToTop").style.display = (window.scrollY > 300) ? "flex" : "none";
         window.onload = initMenu;
 
+        // Track Recipe PDF Download
+        function trackRecipeDownload(recipeName, fileSize) {
+            window.digitalData.events.push({
+                event: "recipePdfDownload",
+                recipe: {
+                    name: recipeName,
+                    fileSize: fileSize,
+                    type: "PDF"
+                }
+            });
+
+            window.dataLayer.push({
+                'event': 'recipe_pdf_download',
+                'recipe_name': recipeName,
+                'file_size': fileSize,
+                'content_type': 'PDF'
+            });
+
+            alert('Downloading Recipe...');
+        }
+
+        // Track Masterclass Video Play
+        function trackVideoPlay() {
+            window.digitalData.events.push({
+                event: "masterclassVideoPlay",
+                video: {
+                    title: "Saffron & Silk Masterclass",
+                    videoId: "iEFoKZQ6KhA",
+                    platform: "YouTube"
+                }
+            });
+
+            window.dataLayer.push({
+                'event': 'video_play',
+                'video_title': 'Saffron & Silk Masterclass',
+                'video_id': 'iEFoKZQ6KhA',
+                'platform': 'YouTube',
+                'content_section': 'masterclass'
+            });
+        }
+
+        // Detect video play on iframe
+        document.addEventListener('DOMContentLoaded', function() {
+            const videoContainer = document.getElementById('masterclass-video');
+            if (videoContainer) {
+                videoContainer.addEventListener('click', trackVideoPlay, { once: false });
+            }
+        });
+
         // Page Load Event
         window.digitalData.events.push({
           event: "pageLoad",
           pageName: window.digitalData.page.pageName
+        });
+
+        window.dataLayer.push({
+          'event': 'page_loaded',
+          'page_name': window.digitalData.page.pageName
         });
     </script>
 
