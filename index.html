@@ -6,6 +6,31 @@
     <title>Saffron & Silk | Royal Indian Vegetarian Dining</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- =========================
+     ADOBE DATA LAYER
+========================= -->
+<script>
+window.digitalData = {
+  page: {
+    pageName: "Saffron & Silk | Home",
+    siteSection: "Home",
+    siteSubSection: "Menu",
+    pageType: "restaurant",
+    language: "en-IN"
+  },
+  user: {
+    userType: "guest",
+    loginStatus: "logged_out"
+  },
+  cart: {
+    totalItems: 0,
+    totalValue: 0,
+    currency: "INR"
+  },
+  events: []
+};
+</script>
     
     <style>
         :root {
@@ -318,14 +343,46 @@
             });
         }
 
-        function addToCart(id) {
-            cart.push(menuData.find(i => i.id === id));
-            updateCartUI();
-            event.target.innerText = "Added!";
-            setTimeout(() => event.target.innerText = "Add to Cart", 1000);
-        }
+        function addToCart(id, btn){
+ const product = menuData.find(p=>p.id===id);
+ cart.push(product);
+ updateCartUI();
 
-        function removeFromCart(index) { cart.splice(index, 1); updateCartUI(); }
+ /* ===== ADOBE ADD TO CART ===== */
+ window.digitalData.events.push({
+   event:"addToCart",
+   product:{
+     id:product.id,
+     name:product.name,
+     category:product.cat,
+     price:product.price,
+     currency:"INR"
+   }
+ });
+
+ window.digitalData.cart.totalItems = cart.length;
+ window.digitalData.cart.totalValue = cart.reduce((s,i)=>s+i.price,0);
+}
+
+        function removeFromCart(index){
+ const removed = cart[index];
+ cart.splice(index,1);
+ updateCartUI();
+
+ /* ===== ADOBE REMOVE FROM CART ===== */
+ window.digitalData.events.push({
+   event:"removeFromCart",
+   product:{
+     id:removed.id,
+     name:removed.name,
+     price:removed.price
+   }
+ });
+
+ window.digitalData.cart.totalItems = cart.length;
+ window.digitalData.cart.totalValue = cart.reduce((s,i)=>s+i.price,0);
+}
+
 
         function updateCartUI() {
             const container = document.getElementById('cart-items-container');
@@ -340,9 +397,25 @@
             document.getElementById('cart-total').innerText = `₹${total}`;
         }
 
-        function toggleCart() { document.getElementById('cart-panel').classList.toggle('active'); }
-        window.onscroll = () => document.getElementById("backToTop").style.display = (window.scrollY > 300) ? "flex" : "none";
-        window.onload = initMenu;
-    </script>
+        function toggleCart(){
+ document.getElementById("cart-panel").classList.toggle("active");
+}
+
+window.onload=()=>{
+ renderMenu();
+
+ /* ===== ADOBE PAGE LOAD ===== */
+ window.digitalData.events.push({
+   event:"pageLoad",
+   pageName:window.digitalData.page.pageName
+ });
+};
+</script>
+
+<!-- =========================
+     ADOBE LAUNCH SCRIPT
+========================= -->
+<script src="https://assets.adobedtm.com/XXXXXXXXXXXX/launch-XXXX.min.js"></script>
+
 </body>
 </html>
