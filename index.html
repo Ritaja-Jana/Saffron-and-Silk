@@ -1,38 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Saffron & Silk | Royal Indian Vegetarian Dining</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-    <!-- =========================
-     ADOBE DATA LAYER
-========================= -->
-<script>
-window.digitalData = {
-  page: {
-    pageName: "Saffron & Silk | Home",
-    siteSection: "Home",
-    siteSubSection: "Menu",
-    pageType: "restaurant",
-    language: "en-IN"
-  },
-  user: {
-    userType: "guest",
-    loginStatus: "logged_out"
-  },
-  cart: {
-    totalItems: 0,
-    totalValue: 0,
-    currency: "INR"
-  },
-  events: []
-};
-</script>
     
+    <script>
+    window.digitalData = {
+      page: {
+        pageName: "Saffron & Silk | Home",
+        siteSection: "Home",
+        siteSubSection: "Menu",
+        pageType: "restaurant",
+        language: "en-IN"
+      },
+      user: {
+        userType: "guest",
+        loginStatus: "logged_out"
+      },
+      cart: {
+        totalItems: 0,
+        totalValue: 0,
+        currency: "INR"
+      },
+      events: []
+    };
+    </script>
+
     <style>
         :root {
             --royal-gold: #D4AF37;
@@ -344,46 +340,55 @@ window.digitalData = {
             });
         }
 
-        function addToCart(id, btn){
- const product = menuData.find(p=>p.id===id);
- cart.push(product);
- updateCartUI();
+        function addToCart(id) {
+            const product = menuData.find(i => i.id === id);
 
- /* ===== ADOBE ADD TO CART ===== */
- window.digitalData.events.push({
-   event:"addToCart",
-   product:{
-     id:product.id,
-     name:product.name,
-     category:product.cat,
-     price:product.price,
-     currency:"INR"
-   }
- });
+            cart.push(product);
+            updateCartUI();
 
- window.digitalData.cart.totalItems = cart.length;
- window.digitalData.cart.totalValue = cart.reduce((s,i)=>s+i.price,0);
-}
+            window.digitalData.events.push({
+                event: "addToCart",
+                product: {
+                    id: product.id,
+                    name: product.name,
+                    category: product.cat,
+                    price: product.price,
+                    currency: "INR"
+                }
+            });
 
-        function removeFromCart(index){
- const removed = cart[index];
- cart.splice(index,1);
- updateCartUI();
+            window.digitalData.cart.totalItems = cart.length;
+            window.digitalData.cart.totalValue =
+              cart.reduce((sum, i) => sum + i.price, 0);
 
- /* ===== ADOBE REMOVE FROM CART ===== */
- window.digitalData.events.push({
-   event:"removeFromCart",
-   product:{
-     id:removed.id,
-     name:removed.name,
-     price:removed.price
-   }
- });
+            // Optional UI Feedback
+            if(event && event.target) {
+                const btn = event.target;
+                const originalText = btn.innerText;
+                btn.innerText = "Added!";
+                setTimeout(() => btn.innerText = originalText, 1000);
+            }
+        }
 
- window.digitalData.cart.totalItems = cart.length;
- window.digitalData.cart.totalValue = cart.reduce((s,i)=>s+i.price,0);
-}
+        function removeFromCart(index) {
+            const removedItem = cart[index];
 
+            cart.splice(index, 1);
+            updateCartUI();
+
+            window.digitalData.events.push({
+                event: "removeFromCart",
+                product: {
+                    id: removedItem.id,
+                    name: removedItem.name,
+                    price: removedItem.price
+                }
+            });
+
+            window.digitalData.cart.totalItems = cart.length;
+            window.digitalData.cart.totalValue =
+              cart.reduce((sum, i) => sum + i.price, 0);
+        }
 
         function updateCartUI() {
             const container = document.getElementById('cart-items-container');
@@ -398,25 +403,17 @@ window.digitalData = {
             document.getElementById('cart-total').innerText = `₹${total}`;
         }
 
-        function toggleCart(){
- document.getElementById("cart-panel").classList.toggle("active");
-}
+        function toggleCart() { document.getElementById('cart-panel').classList.toggle('active'); }
+        window.onscroll = () => document.getElementById("backToTop").style.display = (window.scrollY > 300) ? "flex" : "none";
+        window.onload = initMenu;
 
-window.onload=()=>{
- renderMenu();
+        // Page Load Event
+        window.digitalData.events.push({
+          event: "pageLoad",
+          pageName: window.digitalData.page.pageName
+        });
+    </script>
 
- /* ===== ADOBE PAGE LOAD ===== */
- window.digitalData.events.push({
-   event:"pageLoad",
-   pageName:window.digitalData.page.pageName
- });
-};
-</script>
-
-<!-- =========================
-     ADOBE LAUNCH SCRIPT
-========================= -->
-<script src="https://assets.adobedtm.com/XXXXXXXXXXXX/launch-XXXX.min.js"></script>
-
+    <script src="https://assets.adobedtm.com/XXXXXXXXXXXX/launch-XXXX.min.js"></script>
 </body>
 </html>
